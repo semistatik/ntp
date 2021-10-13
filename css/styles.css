@@ -1,0 +1,11 @@
+form {
+    border: 1px solid black;
+    padding: .5rem;
+}
+
+#bookmarks {
+    border: 1px solid black;
+    list-style: none;
+    padding: .5em;
+
+}
