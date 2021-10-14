@@ -5,6 +5,7 @@ const form = document.getElementById('bm-form');
 const submitBtn = document.getElementById('bm-add');
 const nameField = document.getElementById('bm-name');
 const urlField = document.getElementById('bm-url');
+const messageEle = document.getElementById("bm-message");
 
 const bmList = document.getElementById('bookmarks');
 
@@ -16,10 +17,13 @@ form.addEventListener('submit', function(e) {
     var name = nameField.value;
     var url = urlField.value;
     
-    console.log(`name: ${name}, url: ${url}`);
-
     // pass values to builder
-    build(name, url);
+    if (name && url){
+        messageEle.textContent = "";
+        createBookmark(name, url);
+    } else {
+        showMessage("name and url are required");
+    }
 
     //clear fields
     nameField.value = "";
@@ -31,9 +35,14 @@ form.addEventListener('submit', function(e) {
 });
 
 // build bookmark element
-const build = (name, url) => {
+function createBookmark(name, url){
     const bmElement = document.createElement('li');
     bmElement.innerHTML = `<a href="${url}">${name}</a>`;
 
     bmList.appendChild(bmElement);
+};
+
+// show a message
+function showMessage(message){
+    messageEle.textContent = message;
 }
