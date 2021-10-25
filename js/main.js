@@ -1,11 +1,13 @@
+// global var for holding the bookmarks
+let bookmarks = [];
+
 // page elements
 const form = document.getElementById('bm-form');
 const submitBtn = document.getElementById('bm-add');
 const nameField = document.getElementById('bm-name');
 const urlField = document.getElementById('bm-url');
-const messageEle = document.getElementById("bm-message");
-
 const bmList = document.getElementById('bm-list');
+const messageEle = document.getElementById("bm-message");
 
 // form watcher
 form.addEventListener('submit', function(e) {
@@ -38,14 +40,12 @@ function processBookmark(name, url){
     createBookmarkElement(newBM);
     pushBookmark(newBM);
     showMessage("bookmark added");
-    //updateBMHeading();
 }
 
 // create a bookmark object and return it
 function createBookmark(bmName, bmUrl) {
-    
     let newBM = {
-        id: 1,
+        id: getLastBMId() + 1,
         name: bmName,
         url: bmUrl,
         dateCreated: Date.now()
@@ -56,49 +56,46 @@ function createBookmark(bmName, bmUrl) {
 
 // build bookmark item element
 function createBookmarkElement(bm){
+    // bookmark container
     const bmElement = document.createElement('a');
     bmElement.classList.add("bm-item");
     bmElement.href = bm.url;
 
+    // bookmark icon
     const bmIcon = document.createElement('div');
     bmIcon.classList.add("bm-icon");
     bmIcon.innerText = bm.name[0].toUpperCase();
-
-    bmElement.appendChild(bmIcon);
-
+    
+    // bookmark text
     const bmText = document.createElement('div');
     bmText.classList.add("bm-text");
     bmText.textContent = bm.name;
-
-
+    
+    
+    bmElement.appendChild(bmIcon);
     bmElement.appendChild(bmText);
 
     bmList.appendChild(bmElement);
 };
 
-// saves bookmark to localStorage
+// saves bookmark to global var
 function pushBookmark(bookmark){
-    let bookmarks = localStorage.getItem('bookmarks') ? JSON.parse(localStorage.getItem('bookmarks')) : [];
-    console.log("bookmarks: ", bookmarks);
+    bookmarks = localStorage.getItem('bookmarks') ? JSON.parse(localStorage.getItem('bookmarks')) : [];
     console.log("new bookmark: ", bookmark);
 
     // add bookmark to local var then save to localStorage
     bookmarks.push(bookmark);
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+    storeBookmarks();
 
-    console.log(localStorage);
 }
 
 // load bookmarks on document load
 function loadBookmarks(){
-    let bookmarks = getBookmarks();
+    bookmarks = getBookmarks();
 
-    for(let i = 0; i < bookmarks.length; i++){
-        console.log(bookmarks[i]);
-        createBookmarkElement(bookmarks[i]);
+    for (let bm of bookmarks){
+        createBookmarkElement(bm);
     }
-
-    //updateBMHeading();
 }
 
 // get bookmarks out of local storage
@@ -107,15 +104,43 @@ function getBookmarks(){
     return localStorage.getItem('bookmarks') ? JSON.parse(localStorage.getItem('bookmarks')) : [];
 }
 
+// saves bookmarks to storage
+function storeBookmarks(){
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+}
+
 // show a message
 function showMessage(message){
     messageEle.textContent = message;
 }
 
-function updateBMHeading(){
-    let length = getBookmarks().length;
-    let bmHeading = document.getElementById('bm-heading');
-    bmHeading.innerText = `There ${length == 1 ? "is" : "are" } ${length} bookmark${length == 1 ? "" : "s" } saved`;
+// gets the last id in the bookmarks
+function getLastBMId(){
+    return Math.max(...bookmarks.map(o => o.id), 0);
 }
 
-document.onload = loadBookmarks();
+// greetings
+function getGreeting(){
+    let currentHour = new Date().getHours();
+    let msg = "";
+    if(currentHour >=0 && currentHour < 6){
+        msg = "good early morning";
+    } else if (currentHour >= 6 && currentHour < 12){
+        msg = "good morning";
+    } else if (currentHour >= 12 && currentHour < 18){
+        msg = "good afternoon";
+    } else{
+        msg = "good evening";
+    }
+
+    return msg;
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    
+    loadBookmarks();
+
+    // update greeting
+    let message = document.getElementById('message');
+    message.textContent = getGreeting();
+});
