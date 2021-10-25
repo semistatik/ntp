@@ -37,25 +37,41 @@ function processBookmark(name, url){
     let newBM = createBookmark(name, url);
     createBookmarkElement(newBM);
     pushBookmark(newBM);
-    updateBMHeading();
+    showMessage("bookmark added");
+    //updateBMHeading();
 }
 
 // create a bookmark object and return it
 function createBookmark(bmName, bmUrl) {
     
     let newBM = {
+        id: 1,
         name: bmName,
         url: bmUrl,
-        id: 1
+        dateCreated: Date.now()
     }
 
     return newBM;    
 }
 
-// build bookmark li element
+// build bookmark item element
 function createBookmarkElement(bm){
-    const bmElement = document.createElement('li');
-    bmElement.innerHTML = `<a href="${bm.url}">${bm.name}</a>`;
+    const bmElement = document.createElement('a');
+    bmElement.classList.add("bm-item");
+    bmElement.href = bm.url;
+
+    const bmIcon = document.createElement('div');
+    bmIcon.classList.add("bm-icon");
+    bmIcon.innerText = bm.name[0].toUpperCase();
+
+    bmElement.appendChild(bmIcon);
+
+    const bmText = document.createElement('div');
+    bmText.classList.add("bm-text");
+    bmText.textContent = bm.name;
+
+
+    bmElement.appendChild(bmText);
 
     bmList.appendChild(bmElement);
 };
@@ -82,7 +98,7 @@ function loadBookmarks(){
         createBookmarkElement(bookmarks[i]);
     }
 
-    updateBMHeading();
+    //updateBMHeading();
 }
 
 // get bookmarks out of local storage

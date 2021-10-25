@@ -9,29 +9,38 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-    <form id="bm-form">
+    <header>
 
-        <div>
-            <label for="bm-name">name</label>
-            <input type="text" id="bm-name">
-        </div>
-        
-        <div>
-            <label for="bm-url">url</label>
-            <input type="text" id="bm-url">
-        </div>
-        
-        <div>
-            <button type="submit" id="bm-add">add</button> <span id="bm-message"></span>
+    </header>
+
+    <main>
+            
+        <div id="bm-container">
+            <div id="bm-list"></div>
         </div>
 
-    </form>
+    </main>
 
-    <div class="bm-container">
-        <p id="bm-heading"></p>
-        <ul id="bm-list"></ul>
-    </div>
+    <footer>
+        <form id="bm-form">
 
+            <div>
+                <label for="bm-name">name</label>
+                <input type="text" id="bm-name">
+            </div>
+            
+            <div>
+                <label for="bm-url">url</label>
+                <input type="text" id="bm-url">
+            </div>
+            
+            <div>
+                <button type="submit" id="bm-add">add</button> <span id="bm-message"></span>
+            </div>
+
+        </form>
+
+    </footer>
 
     <script src="/js/main.js"></script>
 </body>
