@@ -46,6 +46,12 @@ main {
     justify-content: center;
 }
 
+footer{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
 .row{
     margin: 1rem 0;
 }
@@ -66,14 +72,18 @@ main {
 }
 
 .bm-item {
-    text-decoration: none;
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     align-items: center;
     padding: .5em;
     border: 2px solid var(--text-color);
     border-radius: 10px;
-    /* justify-content: space-between; */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bm-item:hover{
+    background-color: #4f7b9f;
 }
 
 .bm-icon {
@@ -85,6 +95,15 @@ main {
 
 .bm-text {
     flex-grow: 1;
+}
+
+.bm-title {
+    font-weight: bold;;
+}
+
+.bm-address {
+    font-size: 90%;
+    text-transform: lowercase;
 }
 
 

@@ -69,8 +69,17 @@ function createBookmarkElement(bm){
     // bookmark text
     const bmText = document.createElement('div');
     bmText.classList.add("bm-text");
-    bmText.textContent = bm.name;
-    
+
+    const bmTitle = document.createElement('div');
+    bmTitle.classList.add("bm-title");
+    bmTitle.textContent = bm.name;
+
+    const bmAddress = document.createElement('div');
+    bmAddress.classList.add("bm-address");
+    bmAddress.textContent = getDomain(bm.url);
+
+    bmText.appendChild(bmTitle);
+    bmText.appendChild(bmAddress);
     
     bmElement.appendChild(bmIcon);
     bmElement.appendChild(bmText);
@@ -117,6 +126,30 @@ function showMessage(message){
 // gets the last id in the bookmarks
 function getLastBMId(){
     return Math.max(...bookmarks.map(o => o.id), 0);
+}
+
+function getDomain(url){
+    let domain = "", page = "";
+
+    //remove http://
+    if(url.indexOf('http://') == 0){
+        url = url.substr(7);
+    }
+
+    //remove https://
+    if(url.indexOf('https://') == 0){
+        url = url.substr(8);
+    }
+
+    //remove www.
+    if(url.indexOf('www.') == 0 ){
+        url = url.substr(4);
+    }
+
+    //get everything up to the first '/'
+    domain = url.split('/')[0];
+
+    return domain;
 }
 
 // greetings
