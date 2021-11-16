@@ -64,8 +64,10 @@ function createBookmarkElement(bm){
     // bookmark icon
     const bmIcon = document.createElement('div');
     bmIcon.classList.add("bm-icon");
-    bmIcon.innerText = bm.name[0].toUpperCase();
-    
+
+    let nameWords = bm.name.split(" ");
+    bmIcon.innerText = (nameWords[0].toLowerCase() === 'the' || nameWords[0].toLowerCase() === 'a') ? nameWords[1][0].toUpperCase() : nameWords[0][0].toUpperCase();
+
     // bookmark text
     const bmText = document.createElement('div');
     bmText.classList.add("bm-text");
